@@ -60,7 +60,87 @@ class deco():
                     os.mkdir(mainFileName) # Mac ou linux
             return mainFileName
     
+class le():
+    '''
+    Class that contains all the function to extract the label
+    '''
 
+    def polar_Re_M(Re,M):
+
+        # Create Airfoil Polar main File if it doesn't exist
+        mainFileName = "Airfoil_Polar"  
+        mainFileName = utils.createMainFile(mainFileName)
+        # Create Airfoil Polar Mach main File if it doesn't exist 
+        mainFileName = utils.createMainFile('M_{}'.format(M),bigfolder = mainFileName)
+        # Create Airfoil Polar Mach-Reynolds main File if it doesn't exist 
+        mainFileName = utils.createMainFile('Re_{}'.format(Re),bigfolder = mainFileName)
+
+        # Scrap all airfoil name in AirfoilTools.com Database
+        all_airfoils = scrap.airfoils_name()
+
+        if M == 0:
+            # We directly use the data of Airfoil Tools from M = 0 
+            scrap.airfoils_polar(all_airfoils,Re,mainFileName)
+        else :
+            if not os.path.isdir(r'data/Airfoil_Coordinate'):
+                # Scrap and save locally coordinate of airfoils
+                scrap.airfoils_coordinate(all_airfoils)
+                
+            # In the case that all the airfoil name from the website 
+            # couldn't be scrapped we take only the name of 
+            # data that we have
+            all_airfoils = os.listdir(r'data/Airfoil_Coordinate') 
+
+            # List of coordinate airfoils that couldn't be scrapped
+            airfoil_polar_not = []
+            # List all the airfoils name
+            n = len(all_airfoils)
+            
+            # Threading Data
+            num_thread = 250 # number of thread
+            i0 = 0 # index of the frist page of the multithreading
+            i1 = num_thread  # index of the last page of the multithreading
+            # Start of threadings
+            while i0<n:
+                threadears = []
+                for i in range(i0, i1):
+                    try:
+                        name_thread = all_airfoils[i].replace('.dat','')
+                        t = threading.Thread(target= le.polar, args=(name_thread,Re,M,airfoil_polar_not))
+                        t.start()
+                        threadears.append(t)
+                    except Exception as err:
+                        lg.debug("error:".format(err))
+                for threadear in threadears:
+                    threadear.join()
+                i0 += num_thread
+                i1 += num_thread
+                if i1 > n:
+                    i1 = n
+            if len(airfoil_polar_not)>0:
+                lg.info("[" + str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + "] {} airfoil data couldn't be processed in Xfoil:\n {}".format(len(airfoil_polar_not),airfoil_polar_not))
+            nb_polar_file = len(os.listdir(mainFileName))
+            lg.info("[" + str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + "] {}({}%) airfoils polar for Re = {} were downloaded and saved locally".format(nb_polar_file,int(nb_polar_file/n*100),Re))
+
+    def allPolar(Re_list=[50000,100000,200000,500000,100000],M_list=[0,0.25,0.5,0.75,0.9]):
+        '''
+        Function that return a polar of all the airfoil in the folder 
+        Airfoil_Coordinate for the Re and M wanted
+        '''
+        if type(M_list)==list:
+            for M in M_list:
+                if type(Re_list)==list:
+                    for Re in Re_list:
+                        le.polar_Re_M(Re,M)
+                else:
+                    le.polar_Re_M(Re_list,M)
+        else : 
+            if type(Re_list)==list:
+                for Re in Re_list:
+                    le.polar_Re_M(Re,M_list)
+            else:
+                le.polar_Re_M(Re_list,M_list)
+      
 class profil_coordinate():
     '''
     Create an unique format for data and label
@@ -163,6 +243,10 @@ class profil_coordinate():
 
     
     def coordinate(dir=r"data/Airfoil_Coordinate",nb_point = 30, nb_LE = 20, nb_TE = 10):
+        if not os.path.exists(dir):
+            all_airfoils = scrap.airfoils_name()
+            scrap.airfoils_coordinate(all_airfoils)
+            le.allPolar(Re_list=[50000,100000,200000,500000,1000000],M_list=0)
         airfoils = os.listdir(dir)
         marchepas = []
         all_y = []
@@ -178,8 +262,8 @@ class profil_coordinate():
         return np.array(x_inter).T, np.matrix(all_y).T,nom_profil,marchepas
 
 class pre_processing():
-
     def save_data():
+        # On récupère les données de polaire
         x,ally,nom_profil,marchepas = format.coordinate()
         # On cherche les données de polaire pour un nombre de Mach nul et 
         # des nombres de Reynolds allant de 50000 à 1000000
