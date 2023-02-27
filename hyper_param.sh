@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Spécifiez le nom du fichier Python que vous souhaitez lancer
-python_file=Experience/exp_class.py
+python_file=experience/exp_class.py
 
 
 # Vérifiez si le fichier existe
