@@ -141,7 +141,7 @@ class le():
             else:
                 le.polar_Re_M(Re_list,M_list)
       
-class profil_coordinate():
+class format():
     '''
     Create an unique format for data and label
     '''
