@@ -241,7 +241,6 @@ class profil_coordinate():
 
         return x_inter,y_inter
 
-    
     def coordinate(dir=r"data/Airfoil_Coordinate",nb_point = 30, nb_LE = 20, nb_TE = 10):
         if not os.path.exists(dir):
             all_airfoils = scrap.airfoils_name()
@@ -269,7 +268,10 @@ class pre_processing():
         # des nombres de Reynolds allant de 50000 à 1000000
         M = 0
         Re_list=[50000,100000,200000,500000,1000000]
-
+        # On s'assure que les données de polaire sont disponibles pour tous
+        # les profils
+        if not os.path.exists('data/Airfoil_Polar'):
+                le.allPolar(Re,0)
         # On note dans cette liste les finesses maximales
         finesse_max = np.zeros((len(nom_profil),len(Re_list)))
         no_data_all = [] 
