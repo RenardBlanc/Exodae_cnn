@@ -15,15 +15,10 @@ gast==0.4.0
 google-auth==2.14.1
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
-h5py==3.7.0
-idna==3.4
-importlib-metadata==5.0.0
 jenkspy==0.3.2
-joblib==1.2.0
 keras==2.11.0
 kiwisolver==1.4.4
 libclang==14.0.6
-Markdown==3.4.1
 MarkupSafe==2.1.1
 matplotlib==3.6.2
 numpy==1.23.5
@@ -64,5 +59,4 @@ typing-extensions==4.4.0
 urllib3==1.26.12
 Werkzeug==2.2.2
 wrapt==1.14.1
-zipp==3.10.0
 
