@@ -122,7 +122,7 @@ class scrap():
             lg.debug("[" + str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + "] Airfoil name were scrapped from Airfoil Tools website")
             return name_data
 
-        except error as err: 
+        except Exception as err: 
             lg.error("[" + str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + "] Airfoil name couldn't be scrapped from Airfoil Tools website" + err)
 
     def airfoil_coord(airfoil,mainFileName,airfoil_coord_not,base_link =  "http://airfoiltools.com/airfoil/seligdatfile?airfoil="):
