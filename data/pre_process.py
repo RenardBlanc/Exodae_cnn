@@ -548,7 +548,7 @@ class pre_processing():
     
     def get_data_pre_process_CNN(M,Re):
         if not os.path.exists(r'data/post_processed_data_CNN/Re_{}_{}'.format(M,Re)):
-            pre_processing.save_data_pre_process_CNN()
+            pre_processing.save_data()
 
         with open(r"data/post_processed_data_CNN/Re_{}_{}.pickle".format(M,Re), "rb") as file:
                 dict_ok = pickle.load(file)
