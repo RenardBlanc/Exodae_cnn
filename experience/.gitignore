@@ -1,0 +1,18 @@
+# Cache file
+Notebook/.ipynb_checkpoints/
+.ipynb_checkpoints
+__pycache__/
+.Ds_Store
+
+# Data file
+data/Airfoil_Coordinate
+data/Airfoil_Polar
+data/post_processed_data
+CNN/post_processed_data_CNN
+GAN/post_processed_data_GAN
+
+# ENV
+env/
+
+# nohup file 
+nohup.out

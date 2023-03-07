@@ -1,5 +1,9 @@
 #!/bin/bash
 
+module load cuda cudnn
+# Activation du virtualenv
+source env/bin/activate
+
 # Spécifiez le nom du fichier Python que vous souhaitez lancer
 python_file=experience/exp_class.py
 
