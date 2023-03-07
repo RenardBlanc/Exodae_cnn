@@ -1,0 +1,15 @@
+# Cache file
+Notebook/.ipynb_checkpoints/
+.ipynb_checkpoints
+__pycache__/
+.Ds_Store
+
+# Data file
+data/Airfoil_Coordinate
+data/Airfoil_Polar
+
+# ENV
+env/
+
+# nohup file 
+nohup.out
