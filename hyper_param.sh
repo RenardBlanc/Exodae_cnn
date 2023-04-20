@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=24
 #SBATCH --exclusive
 #SBATCH --mem=40000M
-#SBATCH --time=3:00
+#SBATCH --time=9:00
 #SBATCH --account=def-fellouah
 #SBATCH --mail-user=baktacheilyas@gmail.com 
 
